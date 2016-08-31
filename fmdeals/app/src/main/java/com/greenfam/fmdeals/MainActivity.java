@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 if (tabId == R.id.tab_favorites) {
-                    viewPager.getAdapter().getItemPosition(2);
+
                 }
             }
         });
