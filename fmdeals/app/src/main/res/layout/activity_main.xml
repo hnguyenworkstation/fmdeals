@@ -17,4 +17,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:scaleType="fitXY"/>
 
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        app:bb_tabXmlResource="@xml/bottom_tabs"
+        app:bb_behavior="shy"/>
+
 </android.support.design.widget.CoordinatorLayout>
