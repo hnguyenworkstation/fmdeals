@@ -2,6 +2,7 @@ package com.greenfam.fmdeals.Fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -54,8 +55,9 @@ public class LocalBusinessFragment extends Fragment
     private boolean mPermissionDenied = false;
 
     private GoogleMap googleMap;
-
     private View rootView;
+    private double currentLat;
+    private double currentLong;
 
     public LocalBusinessFragment() {
         // Required empty public constructor
@@ -132,12 +134,7 @@ public class LocalBusinessFragment extends Fragment
         googleMap.setMyLocationEnabled(true);
 
         // For dropping a marker at a point on the Map
-        LatLng sydney = new LatLng(-34, 151);
-        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-        // For zooming automatically to the location of the marker
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        initMapMove();
     }
 
     /**
@@ -187,6 +184,58 @@ public class LocalBusinessFragment extends Fragment
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getFragmentManager(), "dialog");
+    }
+
+    private void initMapMove() {
+        googleMap.clear();
+
+        //Creating a location object
+        Location location = googleMap.getMyLocation();
+        if (location != null) {
+
+            currentLat = location.getLatitude();
+            currentLong = location.getLongitude();
+
+            //String to display current latitude and longitude
+            String msg = currentLat + ", "+currentLong;
+
+            //Creating a LatLng Object to store Coordinates
+            LatLng latLng = new LatLng(currentLat, currentLat);
+
+            //Adding marker to map
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLng) //setting position
+                    .draggable(true) //Making the marker draggable
+                    .title("Current Location")); //Adding a title
+
+            //Moving the camera
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+            //Animating the camera
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+
+            //Displaying current coordinates in toast
+            Toast.makeText(this.getContext(), msg, Toast.LENGTH_LONG).show();
+        } else {
+            String msg = "Temporary Coordinate!";
+            //Creating a LatLng Object to store Coordinates
+            LatLng latLng = new LatLng(10.8231, 106.6297);
+
+            //Adding marker to map
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLng) //setting position
+                    .draggable(true) //Making the marker draggable
+                    .title("Current Location")); //Adding a title
+
+            //Moving the camera
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+            //Animating the camera
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+
+            //Displaying current coordinates in toast
+            Toast.makeText(this.getContext(), msg, Toast.LENGTH_LONG).show();
+        }
     }
 
 
