@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.greenfam.fmdeals.Fragments.LocalBusinessFragment">
 
-    <include layout="@layout/map_fragment_activity" />
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>
